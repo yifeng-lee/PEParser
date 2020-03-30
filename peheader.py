@@ -49,6 +49,9 @@ class ImageFileHeader():
             print('versionError!')
             exit(-1)
 
+    def SizeOfOptionalHeader(self):
+        return int.from_bytes(self.sizeOfOptionalHeader, 'little')
+
 
 class ImageOptionalHeader():
     def __init__(self, optionalHeader, version):
@@ -84,7 +87,7 @@ class ImageOptionalHeader():
             self.checkSum = optionalHeader[0x58:0x5b]  # 校验和
             self.subSystem = optionalHeader[0x5c:0x5e]  # 文件子系统
             self.numberOfRvaAndSizes = optionalHeader[0x84:0x88]  # 数据目录表项数
-            self.baseOfData = 0x0
+            self.baseOfData = b'\x00\x00\x00\x00'
         else:
             print('error!')
             exit(-1)
